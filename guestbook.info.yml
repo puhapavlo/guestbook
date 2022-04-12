@@ -1,4 +1,6 @@
 name: Guestbook
 type: module
+package: GuestBook
+version: VERSION
 description: 'Module adds a guestbook to your site.'
-core: 9.x
+core_version_requirement: ^9
