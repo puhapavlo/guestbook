@@ -1,0 +1,4 @@
+name: Guestbook
+type: module
+description: 'Module adds a guestbook to your site.'
+core: 9.x
