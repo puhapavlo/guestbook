@@ -23,8 +23,10 @@ class GuestbookController extends ControllerBase {
    *   A renderable array.
    */
   public function content() {
+    $guestbookForm = \Drupal::formBuilder()->getForm('Drupal\guestbook\Form\GuestbookForm');
     return [
       '#theme' => 'guestbook_template',
+      '#form' => $guestbookForm,
     ];
   }
 

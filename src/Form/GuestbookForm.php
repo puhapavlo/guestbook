@@ -112,7 +112,7 @@ class GuestbookForm extends FormBase {
 
     $form['submit'] = [
       '#type' => 'submit',
-      '#title' => $this->t('Submit'),
+      '#value' => $this->t('Submit'),
       '#attributes' => [
         'class' => [
           'form-submit',
