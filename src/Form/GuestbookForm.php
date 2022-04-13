@@ -7,6 +7,8 @@
 
 namespace Drupal\guestbook\Form;
 
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -33,6 +35,11 @@ class GuestbookForm extends FormBase {
    *   Return renderable array for form.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['system_messages'] = [
+      '#markup' => '<div id="form-system-messages"></div>',
+      '#weight' => -100,
+    ];
+
     $form['name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Your name:'),
@@ -118,6 +125,13 @@ class GuestbookForm extends FormBase {
           'form-submit',
         ],
       ],
+      '#ajax' => [
+        'callback' => '::ajaxSubmitCallback',
+        'event' => 'click',
+        'progress' => [
+          'type' => 'throbber',
+        ],
+      ],
     ];
 
     return $form;
@@ -125,6 +139,28 @@ class GuestbookForm extends FormBase {
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
+  }
+
+  public function ajaxSubmitCallback(array &$form, FormStateInterface $form_state) {
+    $ajax_response = new AjaxResponse();
+
+    if (strlen($form_state->getValue('name')) < 2 || strlen($form_state->getValue('name')) > 100) {
+      $ajax_response->addCommand(new MessageCommand($this->t('The minimum length of the name is 2 characters, and the maximum is 100.'), '#form-system-messages', ['type' => 'error']));
+    }
+
+    elseif (!preg_match('/^.+@.+.\..+$/i', $form_state->getValue('email'))) {
+      $ajax_response->addCommand(new MessageCommand($this->t('The email is not valid.'), '#form-system-messages', ['type' => 'error'], TRUE));
+    }
+
+    elseif (!preg_match('/^\d+$/', $form_state->getValue('phone')) || strlen($form_state->getValue('phone')) > 16) {
+      $ajax_response->addCommand(new MessageCommand($this->t('The phone number should include only numbers and be 16 characters long.'), '#form-system-messages', ['type' => 'error'], TRUE));
+    }
+
+    elseif ($form_state->getValue('feedback') == NULL) {
+      $ajax_response->addCommand(new MessageCommand($this->t('Feedback field is empty'), '#form-system-messages', ['type' => 'error'], TRUE));
+    }
+
+    return $ajax_response;
   }
 
 }

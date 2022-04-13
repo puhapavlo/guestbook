@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function guestbook_schema() {
+  $schema['guestbook'] = [
+    'description' => 'Guestbook Database',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+
+      'name' => [
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ],
+
+      'email' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+
+      'phone' => [
+        'type' => 'varchar',
+        'length' => 16,
+        'not null' => TRUE,
+      ],
+
+      'feedback' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => TRUE,
+      ],
+
+      'avatar' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+
+      'picture' => [
+        'type' => 'varchar',
+        'length' => 255,
+      ],
+
+      'timestamp' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function pablo_uninstall() {
+  Drupal::state()->delete('guestbook.guestbook');
+}
