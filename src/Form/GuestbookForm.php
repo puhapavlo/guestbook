@@ -143,10 +143,23 @@ class GuestbookForm extends FormBase {
     return $form;
   }
 
+  /**
+   * @param array $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *
+   * @return void
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
   }
 
+  /**
+   * @param array $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
   public function ajaxSubmitCallback(array &$form, FormStateInterface $form_state) {
     $ajax_response = new AjaxResponse();
 

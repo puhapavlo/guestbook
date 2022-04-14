@@ -24,9 +24,14 @@ class GuestbookController extends ControllerBase {
    */
   public function content() {
     $guestbookForm = \Drupal::formBuilder()->getForm('Drupal\guestbook\Form\GuestbookForm');
+
+    $blockManager = \Drupal::service('plugin.manager.block');
+    $config = [];
+    $feedbacksBlock = $blockManager->createInstance('feedbacks', $config);
     return [
       '#theme' => 'guestbook_template',
       '#form' => $guestbookForm,
+      '#feedbacks' => $feedbacksBlock->build(),
     ];
   }
 

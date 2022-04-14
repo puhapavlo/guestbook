@@ -13,6 +13,12 @@ function guestbook_theme($existing, $type, $theme, $path) {
     'guestbook_template' => [
       'variables' => [
         'form' => NULL,
+        'feedbacks' => NULL,
+      ],
+    ],
+    'feedbacks-template' => [
+      'variables' => [
+        'items' => NULL,
       ],
     ],
   ];

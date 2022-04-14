@@ -1,0 +1,15 @@
+{% for item in items %}
+    <div class="feedback-item">
+        <img src="{{ item.avatar }}" alt="">
+        {{ item.name }}
+        {{ item.timestamp }}
+
+        <p>{{ item.feedback }}</p>
+        {% if item.picture != NULL %}
+            <img src="{{ item.picture }}" alt="">
+        {% endif %}
+
+        {{ item.phone }}
+        {{ item.email }}
+    </div>
+{% endfor %}
