@@ -9,8 +9,10 @@ namespace Drupal\guestbook\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\MessageCommand;
+use Drupal\Core\Database\Database;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\file\Entity\File;
 
 /**
  * Provides form for the guestbook module.
@@ -95,6 +97,8 @@ class GuestbookForm extends FormBase {
         'file_validate_extensions' => ['jpg jpeg png'],
         'file_validate_size' => [2000000],
       ],
+      '#preview_image_style' => 'medium',
+      '#upload_location' => 'public://images',
       '#attributes' => [
         'class' => [
           'form-avatar',
@@ -110,6 +114,8 @@ class GuestbookForm extends FormBase {
         'file_validate_extensions' => ['jpg jpeg png'],
         'file_validate_size' => [5000000],
       ],
+      '#preview_image_style' => 'medium',
+      '#upload_location' => 'public://images',
       '#attributes' => [
         'class' => [
           'form-picture',
@@ -158,6 +164,49 @@ class GuestbookForm extends FormBase {
 
     elseif ($form_state->getValue('feedback') == NULL) {
       $ajax_response->addCommand(new MessageCommand($this->t('Feedback field is empty'), '#form-system-messages', ['type' => 'error'], TRUE));
+    }
+
+    else {
+      $conn = Database::getConnection();
+
+      $fields['name'] = $form_state->getValue('name');
+      $fields['email'] = $form_state->getValue('email');
+      $fields['phone'] = $form_state->getValue('phone');
+      $fields['feedback'] = $form_state->getValue('feedback');
+
+      $avaId = $form_state->getValue('avatar');
+      if ($avaId == NULL) {
+        $fields['avatar'] = '/modules/custom/guestbook/images/avatar-default.png';
+      }
+      else {
+        $file = File::load($avaId[0]);
+        $file->setPermanent();
+        $file->save();
+        $uri = $file->getFileUri();
+        $url = file_create_url($uri);
+        $fields["avatar"] = $url;
+      }
+
+      $picId = $form_state->getValue('picture');
+      if ($picId == NULL) {
+        $fields['picture'] = NULL;
+      }
+      else {
+        $file = File::load($picId[0]);
+        $file->setPermanent();
+        $file->save();
+        $uri = $file->getFileUri();
+        $url = file_create_url($uri);
+        $fields["picture"] = $url;
+      }
+
+      $current_timestamp = \Drupal::time()->getCurrentTime();
+      $todays_date = \Drupal::service('date.formatter')->format($current_timestamp, 'custom', 'M/d/Y H:i:s');
+      $fields["timestamp"] = $todays_date;
+
+      $conn->insert('guestbook')->fields($fields)->execute();
+
+      $ajax_response->addCommand(new MessageCommand($this->t('Thank you very much for your message.'), '#form-system-messages', ['type' => 'status']));
     }
 
     return $ajax_response;
