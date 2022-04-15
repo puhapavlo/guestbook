@@ -25,7 +25,7 @@ class Feedbacks extends BlockBase {
     $db = \Drupal::database();
     $query = $db->select('guestbook', 'g');
     $query->fields('g',
-      ['name', 'email', 'phone', 'feedback', 'avatar', 'picture', 'timestamp']);
+      ['id', 'name', 'email', 'phone', 'feedback', 'avatar', 'picture', 'timestamp']);
     $query->orderBy('timestamp', 'DESC');
     $result = $query->execute()->fetchAll();
     return [

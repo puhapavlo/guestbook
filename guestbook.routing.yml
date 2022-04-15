@@ -5,3 +5,11 @@ guestbook.content:
     _title: 'Guestbook'
   requirements:
     _permission: 'access content'
+
+guestbook.edit:
+  path: '/guestbook/edit/{id}'
+  defaults:
+    _controller: '\Drupal\guestbook\Controller\GuestbookController::edit'
+  requirements:
+    _permission: 'access content'
+    id: ^\d+$

@@ -1,15 +1,20 @@
-{% for item in items %}
+<div class="feedback-items">
+    {% for item in items %}
     <div class="feedback-item">
-        <img src="{{ item.avatar }}" alt="">
-        {{ item.name }}
-        {{ item.timestamp }}
+        <img class="feedback-avatar" src="{{ item.avatar }}" alt="avatar">
+        <h2 class="feedback-name">{{ item.name }}</h2>
+        <div class="feedback-timestamp">{{ item.timestamp }}</div>
 
         <p>{{ item.feedback }}</p>
         {% if item.picture != NULL %}
-            <img src="{{ item.picture }}" alt="">
+            <img class="feedback-picture" src="{{ item.picture }}" alt="picture">
         {% endif %}
 
-        {{ item.phone }}
-        {{ item.email }}
+        <a class="feedback-phone" href="tel:{{ item.phone }}">{{ item.phone }}</a>
+        <a class="feedback-email" href="mailto:{{ item.email }}">{{ item.email }}</a>
+        <a class="use-ajax" data-dialog-type="modal" href="guestbook/edit/{{ item.id }}">Edit</a>
     </div>
-{% endfor %}
+    {% endfor %}
+</div>
+
+{{ attach_library('core/drupal.dialog.ajax') }}

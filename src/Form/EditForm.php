@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\pablo\Form\CatsForm.
+ * Contains \Drupal\pablo\Form\EditForm.
  */
 
 namespace Drupal\guestbook\Form;
@@ -17,7 +17,7 @@ use Drupal\file\Entity\File;
 /**
  * Provides form for the guestbook module.
  */
-class GuestbookForm extends FormBase {
+class EditForm extends FormBase {
 
   /**
    * {@inheritdoc}
@@ -29,10 +29,15 @@ class GuestbookForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $entry = NULL) {
     $form['system_messages'] = [
-      '#markup' => '<div id="form-system-messages"></div>',
+      '#markup' => '<div id="form-system-messages-edit"></div>',
       '#weight' => -100,
+    ];
+
+    $form['id'] = [
+      '#type' => 'hidden',
+      '#default_value' => (isset($entry['id'])) ? $entry['id'] : '',
     ];
 
     $form['name'] = [
@@ -40,6 +45,7 @@ class GuestbookForm extends FormBase {
       '#title' => $this->t('Your name:'),
       '#description' => $this->t('The minimum length of the name is 2 characters, and the maximum is 100'),
       '#required' => TRUE,
+      '#default_value' => (isset($entry['name'])) ? $entry['name'] : '',
       '#attributes' => [
         'class' => [
           'form-name',
@@ -52,6 +58,7 @@ class GuestbookForm extends FormBase {
       '#title' => $this->t('Your email:'),
       '#description' => $this->t('Example: example@gmail.com'),
       '#required' => TRUE,
+      '#default_value' => (isset($entry['email'])) ? $entry['email'] : '',
       '#attributes' => [
         'class' => [
           'form-email',
@@ -64,6 +71,7 @@ class GuestbookForm extends FormBase {
       '#title' => $this->t('Your phone number:'),
       '#description' => $this->t('Example: 380960000000'),
       '#required' => TRUE,
+      '#default_value' => (isset($entry['phone'])) ? $entry['phone'] : '',
       '#attributes' => [
         'class' => [
           'form-phone',
@@ -75,6 +83,7 @@ class GuestbookForm extends FormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Your feedback:'),
       '#required' => TRUE,
+      '#default_value' => (isset($entry['feedback'])) ? $entry['feedback'] : '',
       '#attributes' => [
         'class' => [
           'form-feedback',
@@ -84,7 +93,7 @@ class GuestbookForm extends FormBase {
 
     $form['avatar'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Your avatar:'),
+      '#title' => $this->t('Change your avatar:'),
       '#description' => 'The image format should be jpeg, jpg, png and the file size should not exceed 2 MB',
       '#upload_validators' => [
         'file_validate_extensions' => ['jpg jpeg png'],
@@ -101,7 +110,7 @@ class GuestbookForm extends FormBase {
 
     $form['picture'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Feedback picture:'),
+      '#title' => $this->t('Change feedback picture:'),
       '#description' => 'The image format should be jpeg, jpg, png and the file size should not exceed 5 MB',
       '#upload_validators' => [
         'file_validate_extensions' => ['jpg jpeg png'],
@@ -154,62 +163,60 @@ class GuestbookForm extends FormBase {
     $response = new AjaxResponse();
 
     if (strlen($form_state->getValue('name')) < 2 || strlen($form_state->getValue('name')) > 100) {
-      $response->addCommand(new MessageCommand($this->t('The minimum length of the name is 2 characters, and the maximum is 100.'), '#form-system-messages', ['type' => 'error']));
+      $response->addCommand(new MessageCommand($this->t('The minimum length of the name is 2 characters, and the maximum is 100.'), '#form-system-messages-edit', ['type' => 'error']));
     }
 
     elseif (!preg_match('/^.+@.+.\..+$/i', $form_state->getValue('email'))) {
-      $response->addCommand(new MessageCommand($this->t('The email is not valid.'), '#form-system-messages', ['type' => 'error'], TRUE));
+      $response->addCommand(new MessageCommand($this->t('The email is not valid.'), '#form-system-messages-edit', ['type' => 'error'], TRUE));
     }
 
     elseif (!preg_match('/^\d+$/', $form_state->getValue('phone')) || strlen($form_state->getValue('phone')) > 16) {
-      $response->addCommand(new MessageCommand($this->t('The phone number should include only numbers and be 16 characters long.'), '#form-system-messages', ['type' => 'error'], TRUE));
+      $response->addCommand(new MessageCommand($this->t('The phone number should include only numbers and be 16 characters long.'), '#form-system-messages-edit', ['type' => 'error'], TRUE));
     }
 
     elseif ($form_state->getValue('feedback') == NULL) {
-      $response->addCommand(new MessageCommand($this->t('Feedback field is empty'), '#form-system-messages', ['type' => 'error'], TRUE));
+      $response->addCommand(new MessageCommand($this->t('Feedback field is empty'), '#form-system-messages-edit', ['type' => 'error'], TRUE));
     }
 
     else {
-      $conn = Database::getConnection();
-
-      $fields['name'] = $form_state->getValue('name');
-      $fields['email'] = $form_state->getValue('email');
-      $fields['phone'] = $form_state->getValue('phone');
-      $fields['feedback'] = $form_state->getValue('feedback');
-
       $avaId = $form_state->getValue('avatar');
       if ($avaId == NULL) {
-        $fields['avatar'] = '/modules/custom/guestbook/images/avatar-default.png';
+        $avatar = '/modules/custom/guestbook/images/avatar-default.png';
       }
       else {
         $file = File::load($avaId[0]);
         $file->setPermanent();
         $file->save();
         $uri = $file->getFileUri();
-        $url = file_create_url($uri);
-        $fields["avatar"] = $url;
+        $avatar = file_create_url($uri);
       }
 
       $picId = $form_state->getValue('picture');
       if ($picId == NULL) {
-        $fields['picture'] = NULL;
+        $picture = NULL;
       }
       else {
         $file = File::load($picId[0]);
         $file->setPermanent();
         $file->save();
         $uri = $file->getFileUri();
-        $url = file_create_url($uri);
-        $fields["picture"] = $url;
+        $picture = file_create_url($uri);
       }
 
-      $currentTimestamp = \Drupal::time()->getCurrentTime();
-      $todayDate = \Drupal::service('date.formatter')->format($currentTimestamp, 'custom', 'M/d/Y H:i:s');
-      $fields["timestamp"] = $todayDate;
+      $query = \Drupal::database()->update('guestbook');
+      $query->fields([
+        'name' => $form_state->getValue('name'),
+        'email' => $form_state->getValue('email'),
+        'phone' => $form_state->getValue('phone'),
+        'feedback' => $form_state->getValue('feedback'),
+        'avatar' => $avatar,
+        'picture' => $picture,
+      ]);
 
-      $conn->insert('guestbook')->fields($fields)->execute();
+      $query->condition('id', $form_state->getValue('id'));
+      $query->execute();
 
-      $response->addCommand(new MessageCommand($this->t('Thank you very much for your message.'), '#form-system-messages', ['type' => 'status']));
+      $response->addCommand(new MessageCommand($this->t('Entry modified successfully.'), '#form-system-messages-edit', ['type' => 'status']));
     }
 
     return $response;
