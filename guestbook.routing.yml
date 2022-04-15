@@ -11,7 +11,7 @@ guestbook.edit:
   defaults:
     _controller: '\Drupal\guestbook\Controller\GuestbookController::edit'
   requirements:
-    _permission: 'access content'
+    _permission: 'Delete and edit feedbacks'
     id: ^\d+$
 
 guestbook.delete:
@@ -19,5 +19,5 @@ guestbook.delete:
   defaults:
     _controller: '\Drupal\guestbook\Controller\GuestbookController::delete'
   requirements:
-    _permission: 'access content'
+    _permission: 'Delete and edit feedbacks'
     id: ^\d+$

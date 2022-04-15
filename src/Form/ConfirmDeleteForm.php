@@ -45,7 +45,7 @@ class ConfirmDeleteForm extends ConfirmFormBase {
     $query->execute();
     \Drupal::messenger()->addStatus($this->t('Entry deleted successfully.'));
     $form_state->setRebuild();
-    return Url::fromRoute('<front>');
+    return new Url('guestbook.content');
   }
 
   /**
