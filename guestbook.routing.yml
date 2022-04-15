@@ -13,3 +13,11 @@ guestbook.edit:
   requirements:
     _permission: 'access content'
     id: ^\d+$
+
+guestbook.delete:
+  path: '/guestbook/delete/{id}'
+  defaults:
+    _controller: '\Drupal\guestbook\Controller\GuestbookController::delete'
+  requirements:
+    _permission: 'access content'
+    id: ^\d+$

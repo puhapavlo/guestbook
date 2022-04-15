@@ -38,6 +38,15 @@ class GuestbookController extends ControllerBase {
     ];
   }
 
+  public function delete($id) {
+
+    $confirmDeleteForm = \Drupal::formBuilder()->getForm('Drupal\guestbook\Form\ConfirmDeleteForm', $id);
+    $response = new AjaxResponse();
+    $response->addCommand(new OpenModalDialogCommand('Delete', $confirmDeleteForm, ['width' => '800']));
+
+    return $response;
+  }
+
   public function edit($id) {
     $conn = Database::getConnection();
     $query = $conn->select('guestbook', 'g');
