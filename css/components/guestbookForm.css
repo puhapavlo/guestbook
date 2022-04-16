@@ -12,6 +12,9 @@
 .guestbook-form .form-email, .guestbook-form .form-phone, .guestbook-form .form-feedback, .guestbook-form .form-name {
   width: 100%;
 }
+.guestbook-form .form-item {
+  margin-top: 15px;
+}
 .guestbook-form .form-email, .guestbook-form .form-phone, .guestbook-form .form-name {
   height: 40px;
 }
@@ -34,6 +37,8 @@
   color: #fff;
   margin-top: 20px;
   font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
 }
 .guestbook-form .form-submit:hover {
   background-image: none;

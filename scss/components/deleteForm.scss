@@ -1,0 +1,10 @@
+@import "../dev/mixins";
+
+.delete-submit, .delete-cancel {
+  float: right;
+  @include btn();
+}
+
+.delete-submit {
+  margin-right: 10px;
+}

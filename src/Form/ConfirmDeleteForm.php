@@ -35,6 +35,24 @@ class ConfirmDeleteForm extends FormBase {
       '#value' => $this->t('Do you want to delete this entry?'),
     ];
 
+    $form['cancel'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Cancel'),
+      '#attributes' => [
+        'class' => [
+          'form-submit',
+          'delete-cancel',
+        ],
+      ],
+      '#ajax' => [
+        'callback' => '::ajaxCancelCallback',
+        'event' => 'click',
+        'progress' => [
+          'type' => 'throbber',
+        ],
+      ],
+    ];
+
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('OK'),
@@ -46,24 +64,6 @@ class ConfirmDeleteForm extends FormBase {
       ],
       '#ajax' => [
         'callback' => '::ajaxSubmitCallback',
-        'event' => 'click',
-        'progress' => [
-          'type' => 'throbber',
-        ],
-      ],
-    ];
-
-    $form['cancel'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Cancel'),
-      '#attributes' => [
-        'class' => [
-          'form-submit',
-          'delete-cancel'
-        ],
-      ],
-      '#ajax' => [
-        'callback' => '::ajaxCancelCallback',
         'event' => 'click',
         'progress' => [
           'type' => 'throbber',

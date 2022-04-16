@@ -1,0 +1,31 @@
+.delete-submit, .delete-cancel {
+  float: right;
+  background-image: none;
+  margin-left: auto;
+  padding: 12px;
+  border-radius: 0;
+  border: none;
+  text-transform: uppercase;
+  background-color: #131a47;
+  color: #fff;
+  margin-top: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+.delete-submit:hover, .delete-cancel:hover {
+  background-image: none;
+  -webkit-transition: all ease-in-out 0.6s;
+  transition: all ease-in-out 0.6s;
+  background-color: #0b112a;
+  color: #ffffff;
+  border: none;
+}
+.delete-submit:focus, .delete-cancel:focus {
+  background: #131a47;
+  color: #ffffff;
+}
+
+.delete-submit {
+  margin-right: 10px;
+}

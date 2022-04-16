@@ -99,6 +99,8 @@
   color: #fff;
   margin-top: 20px;
   font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
 }
 .feedback-edit:hover, .feedback-delete:hover {
   background-image: none;
@@ -111,4 +113,8 @@
 .feedback-edit:focus, .feedback-delete:focus {
   background: #131a47;
   color: #ffffff;
+}
+
+.feedback-picture {
+  margin-top: 10px;
 }

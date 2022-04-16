@@ -64,5 +64,9 @@
 
 .feedback-edit, .feedback-delete {
   margin-top: 10px;
-  @include btn ();
+  @include btn();
+}
+
+.feedback-picture {
+  margin-top: 10px;
 }
