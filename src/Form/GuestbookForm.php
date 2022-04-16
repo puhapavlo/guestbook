@@ -133,6 +133,8 @@ class GuestbookForm extends FormBase {
       ],
     ];
 
+    $form['#attached']['library'][] = 'guestbook/guestbook';
+
     return $form;
   }
 
