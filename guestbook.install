@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Schema and uninstall hooks for Guestbook module.
+ */
+
+/**
  * Implements hook_schema().
  */
 function guestbook_schema() {

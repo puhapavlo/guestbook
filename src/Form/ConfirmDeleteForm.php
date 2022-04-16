@@ -59,7 +59,7 @@ class ConfirmDeleteForm extends FormBase {
       '#attributes' => [
         'class' => [
           'form-submit',
-          'delete-submit'
+          'delete-submit',
         ],
       ],
       '#ajax' => [
@@ -74,6 +74,19 @@ class ConfirmDeleteForm extends FormBase {
     return $form;
   }
 
+  /**
+   * Ajax callback for submit form.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   JSON response object for AJAX requests.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
   public function ajaxSubmitCallback(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
     $query = \Drupal::database()->delete('guestbook');
@@ -86,6 +99,19 @@ class ConfirmDeleteForm extends FormBase {
     return $response;
   }
 
+  /**
+   * Ajax callback for cancel button.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   JSON response object for AJAX requests.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
   public function ajaxCancelCallback(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
     $currentURL = Url::fromRoute('guestbook.content');

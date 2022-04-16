@@ -1,13 +1,13 @@
 <?php
 
+namespace Drupal\guestbook\Controller;
+
 /**
  * @file
  * Contains \Drupal\guestbook\Controller\GuestbookController.
  *
  * @return
  */
-
-namespace Drupal\guestbook\Controller;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
@@ -38,6 +38,15 @@ class GuestbookController extends ControllerBase {
     ];
   }
 
+  /**
+   * Function for outputting the deletion form.
+   *
+   * @param int $id
+   *   Id a entry from the database.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   return ajax response
+   */
   public function delete($id) {
 
     $confirmDeleteForm = \Drupal::formBuilder()->getForm('Drupal\guestbook\Form\ConfirmDeleteForm', $id);
@@ -47,6 +56,15 @@ class GuestbookController extends ControllerBase {
     return $response;
   }
 
+  /**
+   * Function for outputting the edition form.
+   *
+   * @param int $id
+   *   Id a entry from the database.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   Return ajax response.
+   */
   public function edit($id) {
     $conn = Database::getConnection();
     $query = $conn->select('guestbook', 'g');

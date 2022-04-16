@@ -1,15 +1,14 @@
 <?php
 
+namespace Drupal\guestbook\Form;
+
 /**
  * @file
  * Contains \Drupal\pablo\Form\EditForm.
  */
 
-namespace Drupal\guestbook\Form;
-
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\MessageCommand;
-use Drupal\Core\Database\Database;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
@@ -153,10 +152,16 @@ class EditForm extends FormBase {
   }
 
   /**
+   * Ajax callback for submit form.
+   *
    * @param array $form
+   *   An associative array containing the structure of the form.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
+   *   JSON response object for AJAX requests.
+   *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function ajaxSubmitCallback(array &$form, FormStateInterface $form_state) {
