@@ -14,7 +14,11 @@
         <div class="feedback-text">
             <p>{{ item.feedback }}</p>
             {% if item.picture != NULL %}
-                <img class="feedback-picture" src="{{ item.picture }}" alt="picture">
+                <a href="{{ item.picture }}" class="picture-link">
+                    <div>
+                        <img class="feedback-picture" src="{{ item.picture }}" alt="picture">
+                    </div>
+                </a>
             {% endif %}
         </div>
 
