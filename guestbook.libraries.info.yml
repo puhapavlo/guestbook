@@ -1,0 +1,9 @@
+guestbook:
+  version: VERSION
+  css:
+    base:
+      css/base/elements.css: {}
+    components:
+      css/components/guestbookForm.css: {}
+      css/components/deleteForm.css: {}
+      css/components/feedbacks.css: {}

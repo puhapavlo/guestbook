@@ -4,3 +4,6 @@ package: GuestBook
 version: VERSION
 description: 'Module adds a guestbook to your site.'
 core_version_requirement: ^9
+
+libraries:
+  - guestbook/guestbook
