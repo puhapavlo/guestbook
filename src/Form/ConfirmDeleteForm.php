@@ -24,6 +24,7 @@ class ConfirmDeleteForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+    // Rendarable array for form using Form API.
     $form['id'] = [
       '#type' => 'hidden',
       '#default_value' => $id,
@@ -44,6 +45,7 @@ class ConfirmDeleteForm extends FormBase {
           'delete-cancel',
         ],
       ],
+      // Used AJAX.
       '#ajax' => [
         'callback' => '::ajaxCancelCallback',
         'event' => 'click',
@@ -89,11 +91,13 @@ class ConfirmDeleteForm extends FormBase {
    */
   public function ajaxSubmitCallback(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
+    // Delete data from the database using hidden input.
     $query = \Drupal::database()->delete('guestbook');
     $id = $form_state->getValue('id');
     $query->condition('id', $id);
     $query->execute();
     \Drupal::messenger()->addStatus($this->t('Entry deleted successfully.'));
+    // Reload page.
     $currentURL = Url::fromRoute('guestbook.content');
     $response->addCommand(new RedirectCommand($currentURL->toString()));
     return $response;
@@ -131,20 +135,6 @@ class ConfirmDeleteForm extends FormBase {
    */
   public function getFormId() {
     return "confirm_delete_form";
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getCancelUrl() {
-    return new Url('guestbook.content');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getQuestion() {
-
   }
 
 }

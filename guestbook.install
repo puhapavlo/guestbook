@@ -9,6 +9,7 @@
  * Implements hook_schema().
  */
 function guestbook_schema() {
+  // Create database.
   $schema['guestbook'] = [
     'description' => 'Guestbook Database',
     'fields' => [
@@ -60,6 +61,7 @@ function guestbook_schema() {
       ],
     ],
 
+    // Primary key.
     'primary key' => ['id'],
   ];
 
@@ -70,5 +72,6 @@ function guestbook_schema() {
  * Implements hook_uninstall().
  */
 function pablo_uninstall() {
+  // Uninstall database.
   Drupal::state()->delete('guestbook.guestbook');
 }

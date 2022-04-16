@@ -26,12 +26,17 @@ class GuestbookController extends ControllerBase {
    *   A renderable array.
    */
   public function content() {
+
+    // Get a renderable GuestbookForm array.
     $guestbookForm = \Drupal::formBuilder()->getForm('Drupal\guestbook\Form\GuestbookForm');
 
+    // Used service plugin.manager.block to get the block.
     $blockManager = \Drupal::service('plugin.manager.block');
     $config = [];
     $feedbacksBlock = $blockManager->createInstance('feedbacks', $config);
+    // Return renderable array.
     return [
+      // Template name for current controller.
       '#theme' => 'guestbook_template',
       '#form' => $guestbookForm,
       '#feedbacks' => $feedbacksBlock->build(),
@@ -50,6 +55,7 @@ class GuestbookController extends ControllerBase {
   public function delete($id) {
 
     $confirmDeleteForm = \Drupal::formBuilder()->getForm('Drupal\guestbook\Form\ConfirmDeleteForm', $id);
+    // Used AJAX.
     $response = new AjaxResponse();
     $response->addCommand(new OpenModalDialogCommand('Delete', $confirmDeleteForm, ['width' => '800']));
 
@@ -66,6 +72,7 @@ class GuestbookController extends ControllerBase {
    *   Return ajax response.
    */
   public function edit($id) {
+    // Getting data from the database using the route parameter.
     $conn = Database::getConnection();
     $query = $conn->select('guestbook', 'g');
     $query->condition('id', $id)->fields('g');

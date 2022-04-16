@@ -10,12 +10,14 @@
  */
 function guestbook_theme($existing, $type, $theme, $path) {
   return [
+    // Default template for a guesbook module.
     'guestbook_template' => [
       'variables' => [
         'form' => NULL,
         'feedbacks' => NULL,
       ],
     ],
+    // Template for Feedbacks block.
     'feedbacks-template' => [
       'variables' => [
         'items' => NULL,

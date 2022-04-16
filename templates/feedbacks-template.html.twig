@@ -1,4 +1,14 @@
+{#
+/**
+ * @file
+ * Default template for a Feedbacks block.
+ *
+ */
+#}
 <div class="feedback-items">
+    {#
+    // Looping records from the database.
+    #}
     {% for item in items %}
     <div class="feedback-item">
         <div class="feedback-user">
@@ -34,4 +44,7 @@
     {% endfor %}
 </div>
 
+{#
+// Attached library core/drupal.dialog.ajax for popup.
+#}
 {{ attach_library('core/drupal.dialog.ajax') }}

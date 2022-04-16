@@ -29,6 +29,7 @@ class EditForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $entry = NULL) {
+    // Rendarable array for form using Form API.
     $form['system_messages'] = [
       '#markup' => '<div id="form-system-messages-edit"></div>',
       '#weight' => -100,
@@ -36,6 +37,7 @@ class EditForm extends FormBase {
 
     $form['id'] = [
       '#type' => 'hidden',
+      // Default value from controller.
       '#default_value' => (isset($entry['id'])) ? $entry['id'] : '',
     ];
 
@@ -94,6 +96,7 @@ class EditForm extends FormBase {
       '#type' => 'managed_file',
       '#title' => $this->t('Change your avatar:'),
       '#description' => 'The image format should be jpeg, jpg, png and the file size should not exceed 2 MB',
+      // Validation image.
       '#upload_validators' => [
         'file_validate_extensions' => ['jpg jpeg png'],
         'file_validate_size' => [2000000],
@@ -167,23 +170,28 @@ class EditForm extends FormBase {
   public function ajaxSubmitCallback(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
 
+    // Validation name.
     if (strlen($form_state->getValue('name')) < 2 || strlen($form_state->getValue('name')) > 100) {
       $response->addCommand(new MessageCommand($this->t('The minimum length of the name is 2 characters, and the maximum is 100.'), '#form-system-messages-edit', ['type' => 'error']));
     }
 
+    // Validation email.
     elseif (!preg_match('/^.+@.+.\..+$/i', $form_state->getValue('email'))) {
       $response->addCommand(new MessageCommand($this->t('The email is not valid.'), '#form-system-messages-edit', ['type' => 'error'], TRUE));
     }
 
+    // Validation phone.
     elseif (!preg_match('/^\d+$/', $form_state->getValue('phone')) || strlen($form_state->getValue('phone')) > 16) {
       $response->addCommand(new MessageCommand($this->t('The phone number should include only numbers and be 16 characters long.'), '#form-system-messages-edit', ['type' => 'error'], TRUE));
     }
 
+    // Validation feedback.
     elseif ($form_state->getValue('feedback') == NULL) {
       $response->addCommand(new MessageCommand($this->t('Feedback field is empty'), '#form-system-messages-edit', ['type' => 'error'], TRUE));
     }
 
     else {
+      // Adding values to the database.
       $avaId = $form_state->getValue('avatar');
       if ($avaId == NULL) {
         $avatar = '/modules/custom/guestbook/images/avatar-default.png';
