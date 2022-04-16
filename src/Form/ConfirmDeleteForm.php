@@ -2,14 +2,16 @@
 
 namespace Drupal\guestbook\Form;
 
-use Drupal\Core\Form\ConfirmFormBase;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\RedirectCommand;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
 /**
  * Defines a confirmation form to confirm deletion of something by id.
  */
-class ConfirmDeleteForm extends ConfirmFormBase {
+class ConfirmDeleteForm extends FormBase {
 
   /**
    * ID of the item to delete.
@@ -32,20 +34,67 @@ class ConfirmDeleteForm extends ConfirmFormBase {
       '#tag' => 'h2',
       '#value' => $this->t('Do you want to delete this entry?'),
     ];
-    return parent::buildForm($form, $form_state);
+
+    $form['cancel'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Cancel'),
+      '#attributes' => [
+        'class' => [
+          'form-submit',
+        ],
+      ],
+      '#ajax' => [
+        'callback' => '::ajaxCancelCallback',
+        'event' => 'click',
+        'progress' => [
+          'type' => 'throbber',
+        ],
+      ],
+    ];
+
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('OK'),
+      '#attributes' => [
+        'class' => [
+          'form-submit',
+        ],
+      ],
+      '#ajax' => [
+        'callback' => '::ajaxSubmitCallback',
+        'event' => 'click',
+        'progress' => [
+          'type' => 'throbber',
+        ],
+      ],
+    ];
+    return $form;
+  }
+
+  public function ajaxSubmitCallback(array &$form, FormStateInterface $form_state) {
+    $response = new AjaxResponse();
+    $query = \Drupal::database()->delete('guestbook');
+    $id = $form_state->getValue('id');
+    $query->condition('id', $id);
+    $query->execute();
+    \Drupal::messenger()->addStatus($this->t('Entry deleted successfully.'));
+    $currentURL = Url::fromRoute('guestbook.content');
+    $response->addCommand(new RedirectCommand($currentURL->toString()));
+    return $response;
+  }
+
+  public function ajaxCancelCallback(array &$form, FormStateInterface $form_state) {
+    $response = new AjaxResponse();
+    $currentURL = Url::fromRoute('guestbook.content');
+    $response->addCommand(new RedirectCommand($currentURL->toString()));
+    return $response;
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $query = \Drupal::database()->delete('guestbook');
-    $id = $form_state->getValue('id');
-    $query->condition('id', $id);
-    $query->execute();
-    \Drupal::messenger()->addStatus($this->t('Entry deleted successfully.'));
-    $form_state->setRebuild();
-    return new Url('guestbook.content');
+
   }
 
   /**
