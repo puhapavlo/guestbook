@@ -1,3 +1,5 @@
+@import "../dev/mixins";
+
 .guestbook-form {
   margin: 40px auto 0;
   max-width: 600px;
@@ -12,36 +14,17 @@
     height: 40px;
   }
 
-  .form-feedback{
+  .form-feedback {
     height: 180px;
     resize: none;
   }
 
-  .description{
+  .description {
     font-size: 10px;
     color: #919191;
   }
 
-  .form-submit{
-    background-image: none;
-    margin-left: auto;
-    padding: 12px;
-    border-radius: 0;
-    border: none;
-    text-transform: uppercase;
-    background-color: #131a47;
-    color: #fff;
-    margin-top: 20px;
-    font-weight: 500;
-    &:hover{
-      background-image: none;
-      transition: all ease-in-out 0.6s;
-      background-color: #0b112a;
-      color: #ffffff;
-    }
-
-    &:focus{
-      background: #131a47;
-    }
+  .form-submit {
+    @include btn ();
   }
 }

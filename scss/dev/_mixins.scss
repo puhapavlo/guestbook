@@ -1,0 +1,25 @@
+@mixin btn () {
+  background-image: none;
+  margin-left: auto;
+  padding: 12px;
+  border-radius: 0;
+  border: none;
+  text-transform: uppercase;
+  background-color: #131a47;
+  color: #fff;
+  margin-top: 20px;
+  font-weight: 500;
+
+  &:hover {
+    background-image: none;
+    transition: all ease-in-out 0.6s;
+    background-color: #0b112a;
+    color: #ffffff;
+    border: none;
+  }
+
+  &:focus {
+    background: #131a47;
+    color: #ffffff;
+  }
+}

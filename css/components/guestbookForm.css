@@ -41,7 +41,9 @@
   transition: all ease-in-out 0.6s;
   background-color: #0b112a;
   color: #ffffff;
+  border: none;
 }
 .guestbook-form .form-submit:focus {
   background: #131a47;
+  color: #ffffff;
 }

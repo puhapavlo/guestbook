@@ -1,0 +1,114 @@
+.feedback-items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 50px;
+}
+
+.feedback-item {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  padding: 20px;
+}
+
+.avatar-container {
+  width: 60px;
+  height: 80px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.feedback-avatar {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.feedback-info, .feedback-user, .feedback-text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 10px;
+}
+
+.feedback-user {
+  width: 20%;
+}
+
+.feedback-text {
+  width: 50%;
+}
+
+.feedback-info {
+  width: 30%;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.feedback-phone, .feedback-email {
+  color: #111;
+  text-decoration: none;
+  border: none;
+  font-size: 17px;
+}
+.feedback-phone:hover, .feedback-email:hover {
+  -webkit-transition: all ease-in-out 0.6s;
+  transition: all ease-in-out 0.6s;
+  color: #333333;
+  border: none;
+}
+
+.feedback-edit, .feedback-delete {
+  margin-top: 10px;
+  background-image: none;
+  margin-left: auto;
+  padding: 12px;
+  border-radius: 0;
+  border: none;
+  text-transform: uppercase;
+  background-color: #131a47;
+  color: #fff;
+  margin-top: 20px;
+  font-weight: 500;
+}
+.feedback-edit:hover, .feedback-delete:hover {
+  background-image: none;
+  -webkit-transition: all ease-in-out 0.6s;
+  transition: all ease-in-out 0.6s;
+  background-color: #0b112a;
+  color: #ffffff;
+  border: none;
+}
+.feedback-edit:focus, .feedback-delete:focus {
+  background: #131a47;
+  color: #ffffff;
+}

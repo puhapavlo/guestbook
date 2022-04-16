@@ -1,21 +1,31 @@
 <div class="feedback-items">
     {% for item in items %}
     <div class="feedback-item">
-        <img class="feedback-avatar" src="{{ item.avatar }}" alt="avatar">
-        <h2 class="feedback-name">{{ item.name }}</h2>
-        <div class="feedback-timestamp">{{ item.timestamp }}</div>
+        <div class="feedback-user">
+            <div class="avatar-container">
+                <div>
+                    <img class="feedback-avatar" src="{{ item.avatar }}" alt="avatar">
+                </div>
+            </div>
+            <h2 class="feedback-name">{{ item.name }}</h2>
+            <div class="feedback-timestamp">{{ item.timestamp }}</div>
+        </div>
 
-        <p>{{ item.feedback }}</p>
-        {% if item.picture != NULL %}
-            <img class="feedback-picture" src="{{ item.picture }}" alt="picture">
-        {% endif %}
+        <div class="feedback-text">
+            <p>{{ item.feedback }}</p>
+            {% if item.picture != NULL %}
+                <img class="feedback-picture" src="{{ item.picture }}" alt="picture">
+            {% endif %}
+        </div>
 
-        <a class="feedback-phone" href="tel:{{ item.phone }}">{{ item.phone }}</a>
-        <a class="feedback-email" href="mailto:{{ item.email }}">{{ item.email }}</a>
-        {% if user.hasPermission('Delete and edit feedbacks') %}
-            <a class="use-ajax" data-dialog-type="modal" href="guestbook/edit/{{ item.id }}">Edit</a>
-            <a class="use-ajax" data-dialog-type="modal" href="guestbook/delete/{{ item.id }}">Delete</a>
-        {% endif %}
+        <div class="feedback-info">
+            <a class="feedback-phone" href="tel:{{ item.phone }}">{{ item.phone }}</a>
+            <a class="feedback-email" href="mailto:{{ item.email }}">{{ item.email }}</a>
+            {% if user.hasPermission('Delete and edit feedbacks') %}
+                <a class="use-ajax feedback-edit" data-dialog-type="modal" href="guestbook/edit/{{ item.id }}">Edit</a>
+                <a class="use-ajax feedback-delete" data-dialog-type="modal" href="guestbook/delete/{{ item.id }}">Delete</a>
+            {% endif %}
+        </div>
     </div>
     {% endfor %}
 </div>
