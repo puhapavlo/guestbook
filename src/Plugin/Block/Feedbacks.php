@@ -24,25 +24,25 @@ class Feedbacks extends BlockBase {
   public function build() {
     // Getting data from the database.
     $db = \Drupal::database();
-    $query = $db->select('guestbook', 'g');
-    $query->fields('g',
+    $query = $db->select("guestbook", "g");
+    $query->fields("g",
       [
-        'id',
-        'name',
-        'email',
-        'phone',
-        'feedback',
-        'avatar',
-        'picture',
-        'timestamp',
+        "id",
+        "name",
+        "email",
+        "phone",
+        "feedback",
+        "avatar",
+        "picture",
+        "timestamp",
       ]);
-    $query->orderBy('timestamp', 'DESC');
+    $query->orderBy("timestamp", "DESC");
     $result = $query->execute()->fetchAll();
-    // Return renderable array
+    // Return renderable array.
     return [
       // Template name for current block.
-      '#theme' => 'feedbacks-template',
-      '#items' => $result,
+      "#theme" => "feedbacks-template",
+      "#items" => $result,
     ];
   }
 

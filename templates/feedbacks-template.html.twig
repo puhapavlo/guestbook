@@ -36,7 +36,7 @@
             <a class="feedback-phone" href="tel:{{ item.phone }}">{{ item.phone }}</a>
             <a class="feedback-email" href="mailto:{{ item.email }}">{{ item.email }}</a>
             {% if user.hasPermission('Delete and edit feedbacks') %}
-                <a class="use-ajax feedback-edit" data-dialog-type="modal" href="guestbook/edit/{{ item.id }}">Edit</a>
+                <a class="use-ajax feedback-edit" data-dialog-type="modal" href="guestbook/edit/{{ item.id }}?edit=edit">Edit</a>
                 <a class="use-ajax feedback-delete" data-dialog-type="modal" href="guestbook/delete/{{ item.id }}">Delete</a>
             {% endif %}
         </div>

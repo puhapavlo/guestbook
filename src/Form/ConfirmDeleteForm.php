@@ -25,50 +25,50 @@ class ConfirmDeleteForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
     // Rendarable array for form using Form API.
-    $form['id'] = [
-      '#type' => 'hidden',
-      '#default_value' => $id,
+    $form["id"] = [
+      "#type" => "hidden",
+      "#default_value" => $id,
     ];
 
-    $form['title'] = [
-      '#type' => 'html_tag',
-      '#tag' => 'h2',
-      '#value' => $this->t('Do you want to delete this entry?'),
+    $form["title"] = [
+      "#type" => "html_tag",
+      "#tag" => "h2",
+      "#value" => $this->t("Do you want to delete this entry?"),
     ];
 
-    $form['cancel'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Cancel'),
-      '#attributes' => [
-        'class' => [
-          'form-submit',
-          'delete-cancel',
+    $form["cancel"] = [
+      "#type" => "submit",
+      "#value" => $this->t("Cancel"),
+      "#attributes" => [
+        "class" => [
+          "form-submit",
+          "delete-cancel",
         ],
       ],
       // Used AJAX.
-      '#ajax' => [
-        'callback' => '::ajaxCancelCallback',
-        'event' => 'click',
-        'progress' => [
-          'type' => 'throbber',
+      "#ajax" => [
+        "callback" => "::ajaxCancelCallback",
+        "event" => "click",
+        "progress" => [
+          "type" => "throbber",
         ],
       ],
     ];
 
-    $form['submit'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('OK'),
-      '#attributes' => [
-        'class' => [
-          'form-submit',
-          'delete-submit',
+    $form["submit"] = [
+      "#type" => "submit",
+      "#value" => $this->t("OK"),
+      "#attributes" => [
+        "class" => [
+          "form-submit",
+          "delete-submit",
         ],
       ],
-      '#ajax' => [
-        'callback' => '::ajaxSubmitCallback',
-        'event' => 'click',
-        'progress' => [
-          'type' => 'throbber',
+      "#ajax" => [
+        "callback" => "::ajaxSubmitCallback",
+        "event" => "click",
+        "progress" => [
+          "type" => "throbber",
         ],
       ],
     ];
@@ -92,13 +92,13 @@ class ConfirmDeleteForm extends FormBase {
   public function ajaxSubmitCallback(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
     // Delete data from the database using hidden input.
-    $query = \Drupal::database()->delete('guestbook');
-    $id = $form_state->getValue('id');
-    $query->condition('id', $id);
+    $query = \Drupal::database()->delete("guestbook");
+    $id = $form_state->getValue("id");
+    $query->condition("id", $id);
     $query->execute();
-    \Drupal::messenger()->addStatus($this->t('Entry deleted successfully.'));
+    \Drupal::messenger()->addStatus($this->t("Entry deleted successfully."));
     // Reload page.
-    $currentURL = Url::fromRoute('guestbook.content');
+    $currentURL = Url::fromRoute("guestbook.content");
     $response->addCommand(new RedirectCommand($currentURL->toString()));
     return $response;
   }
@@ -118,7 +118,7 @@ class ConfirmDeleteForm extends FormBase {
    */
   public function ajaxCancelCallback(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
-    $currentURL = Url::fromRoute('guestbook.content');
+    $currentURL = Url::fromRoute("guestbook.content");
     $response->addCommand(new RedirectCommand($currentURL->toString()));
     return $response;
   }

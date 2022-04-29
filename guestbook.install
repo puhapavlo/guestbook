@@ -67,11 +67,3 @@ function guestbook_schema() {
 
   return $schema;
 }
-
-/**
- * Implements hook_uninstall().
- */
-function pablo_uninstall() {
-  // Uninstall database.
-  Drupal::state()->delete('guestbook.guestbook');
-}
